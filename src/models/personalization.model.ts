@@ -11,7 +11,7 @@ export const createPersonalizationSchema = z.object({
   entreprise: z.string().min(1, 'Le nom de l entreprise est requis').max(255, 'Le nom de l entreprise est trop long'),
   telephone: z.string().min(1, 'Le telephone est requis').max(60, 'Le telephone est trop long'),
   details: z.string().max(5000, 'Les details sont trop longs').optional().nullable(),
-  logo_url: z.string().optional().nullable(),
+  logo_url: z.string().url('URL du logo invalide').max(2000, 'URL du logo trop longue').optional().nullable(),
 });
 
 export const updatePersonalizationStatusSchema = z.object({

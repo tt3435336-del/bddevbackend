@@ -4,7 +4,7 @@ const normalizeTextList = (values: string[]) =>
   values.map((value) => value.trim()).filter(Boolean);
 
 const MAX_PRODUCT_IMAGES = 8;
-const MAX_PRODUCT_IMAGE_LENGTH = 7_000_000;
+const MAX_PRODUCT_IMAGE_LENGTH = 2_000;
 
 const isProductImageReference = (value: string) => {
   if (value === '') {
@@ -19,7 +19,7 @@ const isProductImageReference = (value: string) => {
     return true;
   }
 
-  return /^data:image\/(png|jpe?g|webp|gif|svg\+xml);base64,[a-z0-9+/=\s]+$/i.test(value);
+  return false;
 };
 
 const couleursSchema = z

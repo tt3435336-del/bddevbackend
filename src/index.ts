@@ -8,6 +8,7 @@ import { prisma } from './config/database';
 import { productsRoutes } from './routes/products.routes';
 import { ordersRoutes } from './routes/orders.routes';
 import { personalizationsRoutes } from './routes/personalizations.routes';
+import { uploadsRoutes } from './routes/uploads.routes';
 
 // Créer l'application Hono
 const app = new Hono();
@@ -95,6 +96,7 @@ app.route('/api', authRoutes);
 app.route('/api', productsRoutes);
 app.route('/api', ordersRoutes);
 app.route('/api', personalizationsRoutes);
+app.route('/api', uploadsRoutes);
 
 // Démarrage du serveur
 const port = process.env.PORT || 3002;
