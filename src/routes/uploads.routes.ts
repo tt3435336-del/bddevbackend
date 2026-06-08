@@ -10,10 +10,9 @@ const ALLOWED_IMAGE_TYPES = new Set([
   'image/gif',
   'image/jpeg',
   'image/png',
-  'image/svg+xml',
   'image/webp',
 ]);
-const ALLOWED_IMAGE_FORMATS = 'gif,jpeg,jpg,png,svg,webp';
+const ALLOWED_IMAGE_FORMATS = 'gif,jpeg,jpg,png,webp';
 
 const getFolder = (type: 'products' | 'personalizations') => {
   const rootFolder = process.env.CLOUDINARY_FOLDER?.trim() || 'safetypro-senegal';
