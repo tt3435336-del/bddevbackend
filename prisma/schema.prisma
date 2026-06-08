@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Contact {
+  id         String   @id @default(uuid()) @db.Uuid
+  nom        String
+  email      String
+  message    String
+  lu         Boolean  @default(false)
+  created_at DateTime @default(now()) @db.Timestamp(6)
+
+  @@index([lu], map: "idx_contacts_lu")
+  @@index([created_at], map: "idx_contacts_created_at")
+  @@map("contacts")
+}
+
+model Produit {
+  id             String         @id @default(uuid()) @db.Uuid
+  nom            String
+  prix           Int            @default(0)
+  categorie      String
+  couleurs       String         @default("")
+  description    String         @default("")
+  badge          String         @default("Aucun")
+  image_url      String         @default("")
+  image_urls     String[]       @default([])
+  date_ajout     DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime       @updatedAt @db.Timestamptz(6)
+  commande_items CommandeItem[]
+
+  @@index([categorie], map: "idx_produits_categorie")
+  @@index([date_ajout], map: "idx_produits_date_ajout")
+  @@map("produits")
+}
+
+model Commande {
+  id            String         @id @default(uuid()) @db.Uuid
+  nom_complet   String
+  telephone     String
+  adresse       String
+  quartier      String         @default("")
+  mode_paiement String
+  statut        String         @default("en_attente")
+  total         Int            @default(0)
+  notes         String         @default("")
+  created_at    DateTime       @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime       @updatedAt @db.Timestamptz(6)
+  items         CommandeItem[]
+
+  @@index([statut], map: "idx_commandes_statut")
+  @@index([created_at], map: "idx_commandes_created_at")
+  @@map("commandes")
+}
+
+model CommandeItem {
+  id            String    @id @default(uuid()) @db.Uuid
+  commande_id   String    @db.Uuid
+  produit_id    String?   @db.Uuid
+  nom_produit   String
+  prix_unitaire Int       @default(0)
+  quantite      Int       @default(1)
+  couleur       String    @default("")
+  pointure      String    @default("")
+  commande      Commande  @relation(fields: [commande_id], references: [id], onDelete: Cascade)
+  produit       Produit?  @relation(fields: [produit_id], references: [id], onDelete: SetNull)
+
+  @@index([commande_id], map: "idx_commande_items_commande_id")
+  @@map("commande_items")
+}
+
+model DemandePersonnalisation {
+  id         String   @id @default(uuid()) @db.Uuid
+  entreprise String
+  telephone  String
+  details    String   @default("")
+  logo_url   String   @default("")
+  statut     String   @default("nouvelle")
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @updatedAt @db.Timestamptz(6)
+
+  @@index([statut], map: "idx_demandes_statut")
+  @@map("demandes_personnalisation")
+}
